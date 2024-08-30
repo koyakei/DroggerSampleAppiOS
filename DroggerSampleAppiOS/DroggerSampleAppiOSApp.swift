@@ -2,7 +2,7 @@
 //  DroggerSampleAppiOSApp.swift
 //  DroggerSampleAppiOS
 //
-//  Created by yayugu on 2024/08/30.
+//  Copyright 2024 BizStation Corp.
 //
 
 import SwiftUI
