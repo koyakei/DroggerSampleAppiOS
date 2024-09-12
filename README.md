@@ -1,6 +1,6 @@
 #  Drogger iOS (iPhone / iPad)サンプルアプリケーション
 
-![](screenshot.png)
+<img src="screenshot.png" width="30%">
 
 このサンプルはDrogger RWSシリーズおよびRZXシリーズを利用するためサンプルアプリケーションです。
 Xcode 14 および iOS 17 での動作確認をしております。
