@@ -41,4 +41,7 @@ BLEで検出可能な機器は弊社以外のものも含めてたくさんあ�
 このサンプルでは1件目の端末が見つかったあとに `centralManager.stopScan()` していますが、複数のDroggerから選択したい場合や複数台と接続したい場合はscanを停止せずに続けて、ユーザーに提示したり、それぞれに接続を試みてください。
 peripheral objectを保持したい場合はそれらがアプリケーションにretainしている必要があります。利用する可能性のあるperipheralについては `private var peripherals: [CBPeripheral]` のようにインスタンス変数を作成して `didDiscover` 時に追加するなどしてメモリが開放されないようにしてください。
 
+# Droggerについて
+Drogger自体の購入やドキュメントの確認はこちらまで: https://www.bizstation.jp/ja/drogger/
 
+Copyright 2024 BizStation Corp.
