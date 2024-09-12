@@ -24,6 +24,10 @@ iOSとDroggerを接続するには準備が必要です。Droggerはいくつか
 - 本サンプルプロジェクトアプリではなく新規/既存アプリに追加する場合にはいくつか設定が必要です
   - CoreBluetooth.frameworkの追加
   - Info.plistでのBluetooth利用宣言と用途の説明 (`NSBluetoothAlwaysUsageDescription`など)。詳しくは "Info.plist Bluetooth" 等で検索してください。
+  
+  
+## 出力 (NMEA 0183)
+DroggerはBLEで接続されるとNMEA 0183フォーマットのでGNSSの受信した情報を出力します。こちらをアプリケーションからご利用ください。
 
 ## コードの解説
 BLEを利用する一般的なコードと近いものとなっています。BLEの利用方法については各種ドキュメントをご確認ください。
