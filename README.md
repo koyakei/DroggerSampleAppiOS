@@ -26,8 +26,16 @@ iOSとDroggerを接続するには準備が必要です。Droggerはいくつか
   - Info.plistでのBluetooth利用宣言と用途の説明 (`NSBluetoothAlwaysUsageDescription`など)。詳しくは "Info.plist Bluetooth" 等で検索してください。
   
   
-## 出力 (NMEA 0183)
-DroggerはBLEで接続されるとNMEA 0183フォーマットのでGNSSの受信した情報を出力します。こちらをアプリケーションからご利用ください。
+## 動作・出力 (NMEA 0183)
+Drogger GNSS 受信機は電源がONになると自動的にGNSSの受信を開始します。
+BLEで接続されるとNMEA 0183フォーマットでリアルタイムで受信している情報を出力します。こちらをアプリケーションからご利用ください。
+
+AndroidのDrogger GPSアプリはアプリ側から受信機に設定などを送り、動作モードを変更したりNMEA以外の情報を受信するなどの動作をしています。このサンプルではそういった振る舞いには対応していません。そういった情報を利用したい場合は弊社ビズステーション（株）までお問い合わせください。
+
+NMEAの出力はBluetooth以外に下記の方法でも取得できます。用途にあったものをご検討ください。
+
+- Wi-Fi経由TCP（TCPをlistenしているサーバーが必要となります）
+- RS232C シリアル通信
 
 ## コードの解説
 BLEを利用する一般的なコードと近いものとなっています。BLEの利用方法については各種ドキュメントをご確認ください。
@@ -39,7 +47,7 @@ Drogger端末の検出には次のようなコードを利用します。
 
 `name.starts(with: "RWS") || name.starts(with: "RZS")`
 
-BLEで検出可能な機器は弊社以外のものも含めてたくさんあるのですがそのなかからDroggerを見つけるにはPeripheralの名前で判定します。Droggerでは必ず `RWS.XXXX` , `RZX.XXXX` という名前となります。XXXXの部分についてはDrogger GPSアプリから変更可能です。
+BLEで検出可能な機器は弊社以外のものも含めてたくさんあるのですがそのなかからDroggerを見つけるにはPeripheralの名前で判定します。Droggerでは必ず `RWS.XXXX` , `RZS.XXXX` という名前となります。XXXXの部分についてはDrogger GPSアプリから変更可能です。
 
 ### 複数台のDroggerが存在する場合
 このサンプルでは1件目の端末が見つかったあとに `centralManager.stopScan()` していますが、複数のDroggerから選択したい場合や複数台と接続したい場合はscanを停止せずに続けて、ユーザーに提示したり、それぞれに接続を試みてください。
