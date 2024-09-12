@@ -24,6 +24,7 @@
 		3A8E54632C81963700A1EC77 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		3A8E54652C81964200A1EC77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3A8E54662C81979C00A1EC77 /* BluetoothModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothModel.swift; sourceTree = "<group>"; };
+		3A8E54682C92D3E800A1EC77 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +42,7 @@
 		3A8E54482C81944300A1EC77 = {
 			isa = PBXGroup;
 			children = (
+				3A8E54682C92D3E800A1EC77 /* README.md */,
 				3A8E54532C81944300A1EC77 /* DroggerSampleAppiOS */,
 				3A8E54522C81944300A1EC77 /* Products */,
 				3A8E54622C81963600A1EC77 /* Frameworks */,
