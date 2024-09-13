@@ -24,7 +24,7 @@ let droggerSerialWriteCharactaristic = CBUUID(string: "0baba003-0000-1000-8000-0
 class BluetoothModel: NSObject, ObservableObject {
     private var centralManager: CBCentralManager!
     private var peripheral: CBPeripheral?
-    private var outputLines: [String] = []
+    private var outputs: [String] = []
     var enableToUpdateOutputText = true
     @Published var peripheralStatus: ConnectionStatus = .disconncected
     @Published var deviceDetail: String = ""
@@ -40,16 +40,16 @@ class BluetoothModel: NSObject, ObservableObject {
         centralManager.scanForPeripherals(withServices: nil)
     }
     
-    func addOutputLine(string: String) {
-        outputLines.append(string)
-        if (outputLines.count > 40) {
-            outputLines.remove(at: 0)
+    func addOutput(string: String) {
+        outputs.append(string)
+        if (outputs.count > 40) {
+            outputs.remove(at: 0)
         }
         if !enableToUpdateOutputText {
             return
         }
         DispatchQueue.main.async {
-            self.output = self.outputLines.joined(separator: "")
+            self.output = self.outputs.joined(separator: "")
         }
     }
 }
@@ -118,7 +118,7 @@ extension BluetoothModel: CBPeripheralDelegate {
             }
             let str = String(decoding: data, as: UTF8.self)
             //print("Data: \(str)")
-            addOutputLine(string: str)
+            addOutput(string: str)
             return
         }
         
