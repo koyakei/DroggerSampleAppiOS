@@ -15,6 +15,7 @@ iOSとDroggerを接続するには準備が必要です。Droggerはいくつか
 
 ファームウェア変更にはAndroid端末と [Drogger GPS アプリ](https://play.google.com/store/apps/details?id=jp.bizstation.drgps&hl=ja) が必要となります。
 Drogger-GPSを使って受信機のファームウェアを更新する方法は以下を参照してください。
+
 https://drogger.hatenadiary.jp/rcv_config
 
 ※1 正確にはMade For iPhone認証が必要となります。主に一般消費者向けの認証ですが、Droggerは業務用製品であり対応予定はありません。
@@ -33,6 +34,7 @@ https://drogger.hatenadiary.jp/rcv_config
 このアプリケーションはBLEで受信機に接続し、NMEAメッセージを受け取って表示します。
 
 このサンプルはNMEAの受信を行うのみで送信は行っておりませんが、受信機は制御コマンドを受信することも可能です。制御コマンドについては以下をご覧ください。
+
 https://drogger.hatenadiary.jp/rcv_config
 
 NMEAの出力はBluetooth以外に下記の方法でも取得できます。用途にあったものをご検討ください。
