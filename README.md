@@ -10,10 +10,12 @@ Xcode 14 および iOS 17 での動作確認をしております。
 ご自由にコピーして製品にご利用ください。
 
 ## iOSからDroggerにBluetooth接続するための準備
-iOSとDroggerを接続するには準備が必要です。Droggerはいくつかのファームウェアがあり、そのなかで **BLE** に対応したファームウェアをDroggerに書き込む必要があります
+iOSとDroggerを接続するには準備が必要です。Droggerはいくつかのファームウェアがあり、そのなかで **BLE** に対応したファームウェアを受信機に書き込む必要があります
 初期状態のファームウェアでは Bluetooth Classic Serial Port Profile を用いていますがiOSではこのプロファイルの利用ができない(※1)ためです。
 
-ファームウェア変更にはAndroid端末と [Drogger GPS アプリ](https://play.google.com/store/apps/details?id=jp.bizstation.drgps&hl=ja) が必要となります
+ファームウェア変更にはAndroid端末と [Drogger GPS アプリ](https://play.google.com/store/apps/details?id=jp.bizstation.drgps&hl=ja) が必要となります。
+Drogger-GPSを使って受信機のファームウェアを更新する方法は以下を参照してください。
+https://drogger.hatenadiary.jp/rcv_config
 
 ※1 正確にはMade For iPhone認証が必要となります。主に一般消費者向けの認証ですが、Droggerは業務用製品であり対応予定はありません。
 
