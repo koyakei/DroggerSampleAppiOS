@@ -3,11 +3,18 @@
 <img src="screenshot.png" width="30%">
 
 このサンプルはDrogger RWSシリーズおよびRZXシリーズを利用するためサンプルアプリケーションです。
-Xcode 14 および iOS 17 での動作確認をしております。
+Xcode 16 および iOS 17 での動作確認をしております。
 
 ## ライセンス
 このアプリケーションのソースコードはパブリック・ドメインでご自由にお使いいただけます。
 ご自由にコピーして製品にご利用ください。
+
+## 対応デバイス
+- RZS シリーズ
+- RWS シリーズ
+- DG-PRO1RWS
+
+DG-PRO1, DG-PRO1S, および DG-PRO1RW はBluetooth Classicのみの対応となります。BLEに対応していないためiOS端末とは通信できません。
 
 ## iOSからDroggerにBluetooth接続するための準備
 iOSとDroggerを接続するには準備が必要です。Droggerはいくつかのファームウェアがあり、そのなかで **BLE** に対応したファームウェアを受信機に書き込む必要があります
@@ -50,9 +57,9 @@ BLEを利用する一般的なコードと近いものとなっています。BL
 
 Drogger端末の検出には次のようなコードを利用します。
 
-`name.starts(with: "RWS") || name.starts(with: "RZS")`
+`name.starts(with: "RZS") || name.starts(with: "RWS") || name.starts(with: "DG-PRO1RWS")`
 
-BLEで検出可能な機器は弊社以外のものも含めてたくさんあるのですがそのなかからDroggerを見つけるにはPeripheralの名前で判定します。Droggerでは必ず `RWS.XXXX` , `RZS.XXXX` という名前となります。XXXXの部分についてはDrogger GPSアプリから変更可能です。
+BLEで検出可能な機器は弊社以外のものも含めてたくさんあるのですがそのなかからDroggerを見つけるにはPeripheralの名前で判定します。Droggerでは必ず `RWS.XXXX` , `RZS.XXXX` といった名前となります。XXXXの部分についてはDrogger GPSアプリから変更可能です。
 
 ### 複数台のDroggerが存在する場合
 このサンプルでは1件目の端末が見つかったあとに `centralManager.stopScan()` していますが、複数のDroggerから選択したい場合や複数台と接続したい場合はscanを停止せずに続けて、ユーザーに提示したり、それぞれに接続を試みてください。
