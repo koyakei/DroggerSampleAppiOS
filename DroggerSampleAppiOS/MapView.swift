@@ -8,14 +8,7 @@ import SwiftUI
 import MapKit
 
 struct MapView: View {
-    var bluetoothModel :BluetoothModel
-    
-    @State private var position = MapCameraPosition.region(
-            MKCoordinateRegion(
-                center: .init(),
-                span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-            )
-        )
+    @StateObject var bluetoothModel :BluetoothModel
 
     var body: some View {
         Map() {
