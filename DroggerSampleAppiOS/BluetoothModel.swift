@@ -17,10 +17,13 @@ enum ConnectionStatus: String {
     case error = "Error"
 }
 
-let droggerService = CBUUID(string: "0baba001-0000-1000-8000-00805f9b34fb")
-let droggerSerialDataCharactaristic = CBUUID(string: "0baba002-0000-1000-8000-00805f9b34fb")
-let droggerSerialWriteCharactaristic = CBUUID(string: "0baba003-0000-1000-8000-00805f9b34fb")
 
+
+struct Drogger{
+    let droggerService = CBUUID(string: "0baba001-0000-1000-8000-00805f9b34fb")
+    let droggerSerialDataCharactaristic = CBUUID(string: "0baba002-0000-1000-8000-00805f9b34fb")
+    let droggerSerialWriteCharactaristic = CBUUID(string: "0baba003-0000-1000-8000-00805f9b34fb")
+}
 class BluetoothModel: NSObject, ObservableObject {
     private var centralManager: CBCentralManager!
     private var peripheral: CBPeripheral?
@@ -48,9 +51,7 @@ class BluetoothModel: NSObject, ObservableObject {
         if !enableToUpdateOutputText {
             return
         }
-        DispatchQueue.main.async {
-            self.output = self.outputs.joined(separator: "")
-        }
+        self.output = self.outputs.joined(separator: "")
     }
 }
 
@@ -77,11 +78,9 @@ extension BluetoothModel: CBCentralManagerDelegate {
         print("Connected")
         peripheralStatus = .connected
         p.delegate = self
-        p.discoverServices([droggerService])
+        p.discoverServices([Drogger().droggerService])
         centralManager.stopScan()
-        DispatchQueue.main.async {
-            self.deviceDetail = String(format: "\(p.name!): \(p.identifier)")
-        }
+        self.deviceDetail = String(format: "\(p.name!): \(p.identifier)")
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: (any Error)?) {
@@ -97,8 +96,8 @@ extension BluetoothModel: CBCentralManagerDelegate {
 extension BluetoothModel: CBPeripheralDelegate {
     func peripheral(_ p: CBPeripheral, didDiscoverServices error: (any Error)?) {
         for service in p.services ?? [] {
-            if service.uuid == droggerService {
-                p.discoverCharacteristics([droggerSerialDataCharactaristic, droggerSerialWriteCharactaristic], for: service)
+            if service.uuid == Drogger().droggerService {
+                p.discoverCharacteristics([Drogger().droggerSerialDataCharactaristic, Drogger().droggerSerialWriteCharactaristic], for: service)
             }
         }
     }
@@ -111,7 +110,7 @@ extension BluetoothModel: CBPeripheralDelegate {
     }
     
     func peripheral(_ p: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: (any Error)?) {
-        if characteristic.uuid == droggerSerialDataCharactaristic {
+        if characteristic.uuid == Drogger().droggerSerialDataCharactaristic {
             guard let data = characteristic.value else {
                 print("No data received for SerialData");
                 return
@@ -122,7 +121,7 @@ extension BluetoothModel: CBPeripheralDelegate {
             return
         }
         
-        if characteristic.uuid == droggerSerialWriteCharactaristic {
+        if characteristic.uuid == Drogger().droggerSerialWriteCharactaristic {
             print("Write characteristic");
             return
         }
