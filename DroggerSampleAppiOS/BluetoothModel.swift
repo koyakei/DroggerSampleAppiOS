@@ -8,6 +8,7 @@
 import Foundation
 import CoreBluetooth
 import SwiftUI
+import CoreLocation
 
 enum ConnectionStatus: String {
     case connected = "Connected"
@@ -17,13 +18,12 @@ enum ConnectionStatus: String {
     case error = "Error"
 }
 
-
-
 struct Drogger{
     let droggerService = CBUUID(string: "0baba001-0000-1000-8000-00805f9b34fb")
     let droggerSerialDataCharactaristic = CBUUID(string: "0baba002-0000-1000-8000-00805f9b34fb")
     let droggerSerialWriteCharactaristic = CBUUID(string: "0baba003-0000-1000-8000-00805f9b34fb")
 }
+
 class BluetoothModel: NSObject, ObservableObject {
     private var centralManager: CBCentralManager!
     private var peripheral: CBPeripheral?
@@ -32,6 +32,7 @@ class BluetoothModel: NSObject, ObservableObject {
     @Published var peripheralStatus: ConnectionStatus = .disconncected
     @Published var deviceDetail: String = ""
     @Published var output: String = ""
+    @Published var clLocatiionCoordinate2D : CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0, longitude: 0)
     
     override init() {
         super.init()
@@ -109,6 +110,35 @@ extension BluetoothModel: CBPeripheralDelegate {
         }
     }
     
+    
+    private func parseNMEALatLng(nmeaSentence: String) -> CLLocationCoordinate2D? {
+        let parts = nmeaSentence.components(separatedBy: ",")
+        guard parts.count > 6, parts[0].hasSuffix("GGA") else {
+            return nil
+        }
+        let latRaw = parts[2]
+        let latDirection = parts[3]
+        let lonRaw = parts[4]
+        let lonDirection = parts[5]
+        
+        // 緯度 (DDMM.MMMM) -> (度 + 分/60)
+        if let latDegrees = Double(latRaw.prefix(2)), let latMinutes = Double(latRaw.suffix(latRaw.count - 2)),
+           let lonDegrees = Double(lonRaw.prefix(3)), let lonMinutes = Double(lonRaw.suffix(lonRaw.count - 3)) {
+            var latitude = latDegrees + latMinutes / 60.0
+            var longitude = lonDegrees + lonMinutes / 60.0
+            
+            if latDirection == "S" {
+                latitude = -latitude
+            }
+            if lonDirection == "W" {
+                longitude = -longitude
+            }
+            
+            return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        }
+        return nil
+    }
+    
     func peripheral(_ p: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: (any Error)?) {
         if characteristic.uuid == Drogger().droggerSerialDataCharactaristic {
             guard let data = characteristic.value else {
@@ -116,7 +146,10 @@ extension BluetoothModel: CBPeripheralDelegate {
                 return
             }
             let str = String(decoding: data, as: UTF8.self)
-            //print("Data: \(str)")
+            
+            if let lanLat = parseNMEALatLng(nmeaSentence: str) {
+                clLocatiionCoordinate2D = lanLat
+            }
             addOutput(string: str)
             return
         }
@@ -129,3 +162,4 @@ extension BluetoothModel: CBPeripheralDelegate {
         print("charactaristic \(characteristic.uuid) did not match.")
     }
 }
+

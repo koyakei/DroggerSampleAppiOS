@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		22E548462E68772E006B4D7F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E548452E687729006B4D7F /* HomeView.swift */; };
+		22E548482E687739006B4D7F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E548472E687735006B4D7F /* SettingsView.swift */; };
+		22E5484A2E687915006B4D7F /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E548492E687912006B4D7F /* MapView.swift */; };
 		3A8E54552C81944300A1EC77 /* DroggerSampleAppiOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8E54542C81944300A1EC77 /* DroggerSampleAppiOSApp.swift */; };
 		3A8E54572C81944300A1EC77 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8E54562C81944300A1EC77 /* ContentView.swift */; };
 		3A8E54592C81944600A1EC77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A8E54582C81944600A1EC77 /* Assets.xcassets */; };
@@ -16,6 +19,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		22E548452E687729006B4D7F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		22E548472E687735006B4D7F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		22E548492E687912006B4D7F /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		3A8E54512C81944300A1EC77 /* DroggerSampleAppiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DroggerSampleAppiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A8E54542C81944300A1EC77 /* DroggerSampleAppiOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DroggerSampleAppiOSApp.swift; sourceTree = "<group>"; };
 		3A8E54562C81944300A1EC77 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -60,6 +66,9 @@
 		3A8E54532C81944300A1EC77 /* DroggerSampleAppiOS */ = {
 			isa = PBXGroup;
 			children = (
+				22E548492E687912006B4D7F /* MapView.swift */,
+				22E548472E687735006B4D7F /* SettingsView.swift */,
+				22E548452E687729006B4D7F /* HomeView.swift */,
 				3A8E54652C81964200A1EC77 /* Info.plist */,
 				3A8E54542C81944300A1EC77 /* DroggerSampleAppiOSApp.swift */,
 				3A8E54562C81944300A1EC77 /* ContentView.swift */,
@@ -157,6 +166,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A8E54572C81944300A1EC77 /* ContentView.swift in Sources */,
+				22E5484A2E687915006B4D7F /* MapView.swift in Sources */,
+				22E548482E687739006B4D7F /* SettingsView.swift in Sources */,
+				22E548462E68772E006B4D7F /* HomeView.swift in Sources */,
 				3A8E54552C81944300A1EC77 /* DroggerSampleAppiOSApp.swift in Sources */,
 				3A8E54672C81979C00A1EC77 /* BluetoothModel.swift in Sources */,
 			);
