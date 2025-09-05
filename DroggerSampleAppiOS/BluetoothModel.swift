@@ -28,11 +28,13 @@ class BluetoothModel: NSObject, ObservableObject {
     private var centralManager: CBCentralManager!
     private var peripheral: CBPeripheral?
     private var outputs: [String] = []
+    private var writeCharacteristic: CBCharacteristic?
     var enableToUpdateOutputText = true
     @Published var peripheralStatus: ConnectionStatus = .disconncected
     @Published var deviceDetail: String = ""
     @Published var output: String = ""
     @Published var clLocatiionCoordinate2D : CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0, longitude: 0)
+    @Published var age: Float? = nil
     
     override init() {
         super.init()
@@ -42,6 +44,50 @@ class BluetoothModel: NSObject, ObservableObject {
     func scanForPeripherals() {
         peripheralStatus = .scanning
         centralManager.scanForPeripherals(withServices: nil)
+    }
+    
+    func makeNMEACommand(fields: [String]) -> String {
+        // 先頭 $
+        var base = "$" + fields.joined(separator: ",")
+        
+        // XORチェックサム計算（$は除いて, *の前まで）
+        let chars = Array(base)
+        var checksum: UInt8 = 0
+        for i in 1..<chars.count {
+            if let ascii = chars[i].asciiValue {
+                checksum ^= ascii
+            }
+        }
+        
+        // *XX と CRLF を追加
+        base += String(format: "*%02X\r\n", checksum)
+        return base
+    }
+    
+    func buildNetworkCommand(
+        type: Int,
+        ssid: String,
+        password: String,
+        fixedAddress: String = "",
+        gateway: String = "",
+        netmask: String = ""
+    ) -> String {
+        return makeNMEACommand(fields: [
+            "PBIZ",
+            "network",
+            "\(type)",
+            ssid,
+            password,
+            fixedAddress,
+            gateway,
+            netmask
+        ])
+    }
+    
+    func setWifiSetting(ssid: String, password: String){
+        if let characteristic = writeCharacteristic {
+            peripheral?.writeValue(Data(buildNetworkCommand(type: 1, ssid: ssid, password: password).utf8), for: characteristic, type: .withResponse)
+        }
     }
     
     func addOutput(string: String) {
@@ -107,6 +153,9 @@ extension BluetoothModel: CBPeripheralDelegate {
         for characteristic in service.characteristics ?? [] {
             p.setNotifyValue(true, for: characteristic)
             print("Found the charactaristic \(characteristic.uuid). Waiting for values")
+            if characteristic.uuid == Drogger().droggerSerialWriteCharactaristic {
+                self.writeCharacteristic = characteristic
+            }
         }
     }
     
@@ -120,7 +169,7 @@ extension BluetoothModel: CBPeripheralDelegate {
         let latDirection = parts[3]
         let lonRaw = parts[4]
         let lonDirection = parts[5]
-        
+        self.age = Float(parts[13]) ?? nil
         // 緯度 (DDMM.MMMM) -> (度 + 分/60)
         if let latDegrees = Double(latRaw.prefix(2)), let latMinutes = Double(latRaw.suffix(latRaw.count - 2)),
            let lonDegrees = Double(lonRaw.prefix(3)), let lonMinutes = Double(lonRaw.suffix(lonRaw.count - 3)) {

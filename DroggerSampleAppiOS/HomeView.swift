@@ -46,7 +46,7 @@ struct HomeView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .padding(12)
         .tabItem {
-                        Label("ホーム", systemImage: "house")
-                    }
+            Label("ホーム", systemImage: "house")
+        }
     }
 }

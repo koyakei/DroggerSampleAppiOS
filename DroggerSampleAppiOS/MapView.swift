@@ -15,6 +15,9 @@ struct MapView: View {
             Marker("目印", coordinate: bluetoothModel.clLocatiionCoordinate2D)
         }
         .edgesIgnoringSafeArea(.all)
+        .tabItem {
+            Label("map", systemImage: "map")
+        }
     }
 }
 
