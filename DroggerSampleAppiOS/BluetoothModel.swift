@@ -35,7 +35,7 @@ class BluetoothModel: NSObject, ObservableObject {
     @Published var output: String = ""
     @Published var clLocatiionCoordinate2D : CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0, longitude: 0)
     @Published var age: Float? = nil
-    
+    var latestRes : String = ""
     override init() {
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil)
@@ -64,6 +64,31 @@ class BluetoothModel: NSObject, ObservableObject {
         return base
     }
     
+    func buildNtripCommand(
+        port: Int = 2101,
+        username: String = "",
+        password: String = "",
+        ggaInterval: Int = 1
+    ) -> String {
+        return makeNMEACommand(fields: [
+            "PBIZ",
+            "ntripcl",
+            "1",
+            "ntrip1.bizstation.jp",
+            String(port),
+            "NEAR-FIXED",
+            username,
+            password,
+            String(ggaInterval)
+        ])
+    }
+    
+    func startNtrip(){
+        if let characteristic = writeCharacteristic {
+            peripheral?.writeValue(Data(buildNtripCommand().utf8), for: characteristic, type: .withResponse)
+        }
+    }
+    
     func buildNetworkCommand(
         type: Int,
         ssid: String,
@@ -74,7 +99,7 @@ class BluetoothModel: NSObject, ObservableObject {
     ) -> String {
         return makeNMEACommand(fields: [
             "PBIZ",
-            "network",
+            "wifi",
             "\(type)",
             ssid,
             password,
@@ -162,6 +187,10 @@ extension BluetoothModel: CBPeripheralDelegate {
     
     private func parseNMEALatLng(nmeaSentence: String) -> CLLocationCoordinate2D? {
         let parts = nmeaSentence.components(separatedBy: ",")
+        if parts[0].hasSuffix("PBIZR") {
+            latestRes = nmeaSentence
+            return nil
+        }
         guard parts.count > 6, parts[0].hasSuffix("GGA") else {
             return nil
         }
@@ -169,7 +198,7 @@ extension BluetoothModel: CBPeripheralDelegate {
         let latDirection = parts[3]
         let lonRaw = parts[4]
         let lonDirection = parts[5]
-        self.age = Float(parts[13]) ?? nil
+        self.age = Float(parts[13]) ?? self.age
         // 緯度 (DDMM.MMMM) -> (度 + 分/60)
         if let latDegrees = Double(latRaw.prefix(2)), let latMinutes = Double(latRaw.suffix(latRaw.count - 2)),
            let lonDegrees = Double(lonRaw.prefix(3)), let lonMinutes = Double(lonRaw.suffix(lonRaw.count - 3)) {
